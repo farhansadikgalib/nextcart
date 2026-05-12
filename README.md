@@ -2,6 +2,12 @@
 
 A full-featured e-commerce app built with Flutter, Firebase, and Clean Architecture.
 
+<div align="center">
+
+[![Download APK](https://img.shields.io/badge/Download_APK-v1.0.0-brightgreen?style=for-the-badge&logo=android&logoColor=white)](assets/apk/nextcart-v1.0.0.apk)
+
+</div>
+
 ## Tech Stack
 
 - **Flutter** (Dart 3.8+) -- cross-platform (Android, iOS, Web)
