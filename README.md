@@ -107,10 +107,19 @@ The app uses the following Firebase services:
 | Service | Purpose |
 |---------|---------|
 | Firebase Auth | User authentication (email, Google Sign-In) |
-| Cloud Firestore | Product catalog, orders, cart, user data |
+| Cloud Firestore | Product catalog, orders, cart, notifications, user data |
 | Cloud Storage | Product images and assets |
+| Cloud Messaging | Push notification permissions and token management |
 
-Firestore security rules allow public reads for products/categories and user-scoped writes for carts and orders. See [firestore.rules](firestore.rules) and [storage.rules](storage.rules).
+Firestore security rules allow public reads for products/categories and user-scoped writes for carts, orders, and notifications. See [firestore.rules](firestore.rules) and [storage.rules](storage.rules).
+
+### Notifications
+
+When an order status changes in Firestore, the app:
+1. Detects the change via a real-time orders stream listener
+2. Writes a notification document to `users/{uid}/notifications/`
+3. Shows a local push notification on the device
+4. Tapping the notification navigates to the order detail screen
 
 ## Architecture
 
