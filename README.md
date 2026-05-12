@@ -1,12 +1,58 @@
-# NextCart
-
-A full-featured e-commerce app built with Flutter, Firebase, and Clean Architecture.
-
 <div align="center">
+
+# NextCart - Flutter E-Commerce App
+
+**A production-ready, full-featured e-commerce mobile application built with Flutter & Firebase**
+
+*Open-source Flutter shopping app with cart, wishlist, checkout, order tracking, push notifications & more*
+
+*Clean Architecture | Riverpod | Firestore | Material Design 3*
+
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-3.8+-0175C2?style=flat-square&logo=dart&logoColor=white)](https://dart.dev)
+[![Firebase](https://img.shields.io/badge/Firebase-Backend-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com)
+[![Riverpod](https://img.shields.io/badge/Riverpod-State_Management-0553B1?style=flat-square&logo=riverpod&logoColor=white)](https://riverpod.dev)
+[![License](https://img.shields.io/badge/License-Private-red?style=flat-square)]()
+[![Platform](https://img.shields.io/badge/Platform-Android_|_iOS_|_Web-green?style=flat-square)]()
 
 [![Download APK](https://img.shields.io/badge/Download_APK-v1.0.0-brightgreen?style=for-the-badge&logo=android&logoColor=white)](assets/apk/nextcart-v1.0.0.apk)
 
 </div>
+
+---
+
+## Overview
+
+NextCart is an open-source e-commerce app for Android, iOS, and Web. It provides a complete online shopping experience including product browsing, search, shopping cart, wishlist, checkout with cash on delivery, real-time order tracking, and push notifications. Built with clean architecture and powered by Firebase for authentication, database, and storage.
+
+---
+
+## Screenshots
+
+<div align="center">
+<table>
+  <tr>
+    <td align="center"><img src="assets/screenshots/splash.png" width="200"/><br/><b>Splash</b></td>
+    <td align="center"><img src="assets/screenshots/login.png" width="200"/><br/><b>Login</b></td>
+    <td align="center"><img src="assets/screenshots/home.png" width="200"/><br/><b>Home</b></td>
+    <td align="center"><img src="assets/screenshots/category.png" width="200"/><br/><b>Categories</b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/cart.png" width="200"/><br/><b>Cart</b></td>
+    <td align="center"><img src="assets/screenshots/wishlist.png" width="200"/><br/><b>Wishlist</b></td>
+    <td align="center"><img src="assets/screenshots/checkout.png" width="200"/><br/><b>Checkout</b></td>
+    <td align="center"><img src="assets/screenshots/profile.png" width="200"/><br/><b>Profile</b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/order_list.png" width="200"/><br/><b>Orders</b></td>
+    <td align="center"><img src="assets/screenshots/order_details.png" width="200"/><br/><b>Order Details</b></td>
+    <td align="center"><img src="assets/screenshots/notification.png" width="200"/><br/><b>Notifications</b></td>
+    <td></td>
+  </tr>
+</table>
+</div>
+
+---
 
 ## Tech Stack
 
@@ -23,16 +69,18 @@ A full-featured e-commerce app built with Flutter, Firebase, and Clean Architect
 ## Features
 
 - Google Sign-In & Firebase Authentication
-- Product browsing by categories
-- Product search
-- Shopping cart management
-- Wishlist
-- Checkout flow
-- Order history & tracking
-- Push notifications on order status changes (pending, confirmed, shipped, delivered, cancelled)
+- Product catalog with category filtering
+- Full-text product search
+- Shopping cart (add, remove, update quantity)
+- Wishlist (save favorite products)
+- Checkout with delivery details & cash on delivery
+- Order history with real-time status tracking (pending, confirmed, shipped, delivered)
+- Push notifications on order status changes
 - In-app notification center with unread badge
-- User profile & address management
+- User profile & delivery address management
+- Dark mode / light mode / system theme
 - Onboarding flow for new users
+- Responsive UI for Android, iOS & Web
 
 ## Project Structure
 
@@ -140,3 +188,13 @@ Dependency injection is handled via Riverpod providers in `core/di/`.
 ## License
 
 This project is private and not licensed for redistribution.
+
+---
+
+<div align="center">
+
+**Built with Flutter & Firebase**
+
+`ecommerce` `flutter-ecommerce` `flutter-shopping-app` `shopping-cart` `online-store` `flutter-app` `flutter` `dart` `firebase` `firestore` `riverpod` `clean-architecture` `material-design-3` `go-router` `freezed` `push-notifications` `wishlist` `order-tracking` `google-sign-in` `cross-platform`
+
+</div>
