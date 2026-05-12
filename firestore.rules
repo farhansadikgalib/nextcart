@@ -1,0 +1,37 @@
+rules_version = '2';
+
+// Starter rules for NextCart v1. Replace the open `read: if true` rules with
+// production-safe ones before going live.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public catalog reads; writes only from a privileged service account
+    // (scraper / admin). The mobile app never writes here.
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Each user owns their /users/{uid} document and its subcollections.
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /cart/{itemId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      match /orders/{orderId} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        // App can create orders; status updates happen from the Firestore
+        // console (admin) or a future Cloud Function — block client updates.
+        allow create: if request.auth != null && request.auth.uid == userId;
+        allow update, delete: if false;
+      }
+    }
+  }
+}

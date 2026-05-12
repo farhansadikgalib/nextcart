@@ -1,0 +1,67 @@
+name: nextcart
+description: A Flutter project built with Riverflow CLI using Clean Architecture.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.9
+
+  # State Management
+  flutter_riverpod: ^3.3.1
+  riverpod_annotation: ^4.0.2
+
+  # Routing
+  go_router: ^17.2.3
+
+  # Networking
+  dio: ^5.9.2
+
+  # Storage
+  flutter_secure_storage: ^10.1.0
+
+  # Responsive
+  flutter_screenutil: ^5.9.3
+
+  # Logging
+  logger: ^2.7.0
+
+  # Code Generation Annotations
+  freezed_annotation: ^3.1.0
+  firebase_core: ^4.7.0
+  firebase_auth: ^6.4.0
+  cloud_firestore: ^6.3.0
+  firebase_storage: ^13.3.0
+  google_sign_in: ^7.2.0
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+  intl: ^0.20.2
+  json_annotation: ^4.11.0
+  carousel_slider: ^5.1.2
+  font_awesome_flutter: ^10.12.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code Generation
+  build_runner: ^2.15.0
+  freezed: ^3.2.5
+  json_serializable: ^6.12.0
+  riverpod_generator: ^4.0.3
+
+  # Linting
+  flutter_lints: ^6.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icon/
+
+

@@ -1,0 +1,100 @@
+[
+  {
+    "id": "men_s_fashion",
+    "name": "Men's Fashion",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/91b4ceba61f02638fe803c73d31bd0a8-1765179058185.webp&width=600",
+    "order": 0
+  },
+  {
+    "id": "computer_gaming",
+    "name": "Computer & Gaming",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/6528d77649ce547de5c0c4282bb03f2c-5d131196-3ffe-4bb8-b9e9-0cd1e9b1858f.webp&width=600",
+    "order": 1
+  },
+  {
+    "id": "home_living",
+    "name": "Home & Living",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/984a04f3f7408ffd424a955a4d5a1564-1763970326927.webp&width=600",
+    "order": 2
+  },
+  {
+    "id": "groceries_pet_supplies",
+    "name": "Groceries & Pet Supplies",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/1536-1777893383891.webp&width=600",
+    "order": 3
+  },
+  {
+    "id": "health_beauty",
+    "name": "Health & Beauty",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/81fc45339914533239546efc5c86aa5d-1755409314192.webp&width=600",
+    "order": 4
+  },
+  {
+    "id": "women_s_fashion",
+    "name": "Women's Fashion",
+    "icon": null,
+    "image": null,
+    "order": 5
+  },
+  {
+    "id": "tv_home_appliances",
+    "name": "TV & Home Appliances",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/2844ea1e7cf345030c261f0f483ecc75-1745922242193.webp&width=600",
+    "order": 6
+  },
+  {
+    "id": "lifestyle_hobbies",
+    "name": "Lifestyle & Hobbies",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/63fc13910b5b93bf93c4e19d694d647b-1739269230922.webp&width=600",
+    "order": 7
+  },
+  {
+    "id": "electronic_accessories",
+    "name": "Electronic Accessories",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/99c19076f28049d764f6546cf2a68fd2-43403fb0-ae3c-4086-92f1-50aa40c34eec.webp&width=600",
+    "order": 8
+  },
+  {
+    "id": "watches_bags",
+    "name": "Watches & Bags",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/18392-1752125680288.webp&width=600",
+    "order": 9
+  },
+  {
+    "id": "sports_outdoors",
+    "name": "Sports & Outdoors",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/990-1777803404555.webp&width=600",
+    "order": 10
+  },
+  {
+    "id": "mother_baby",
+    "name": "Mother & Baby",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/s398703e7fa3e4e0ea8b1a4be5933b6089-1740294903862.webp&width=600",
+    "order": 11
+  },
+  {
+    "id": "automotives_motorbikes",
+    "name": "Automotives & Motorbikes",
+    "icon": null,
+    "image": null,
+    "order": 12
+  },
+  {
+    "id": "phones_accessories",
+    "name": "Phones & Accessories",
+    "icon": null,
+    "image": "https://imrs.cartup.com/api/v1/image-resize?imageUrl=https://sl-dev-s3.s3.amazonaws.com/product/b84d2ac99ffb8b487b0acfbd9f07dfef-293f1571-db81-4302-b6de-f8d0ebfe7d7f.webp&width=600",
+    "order": 13
+  }
+]

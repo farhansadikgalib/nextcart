@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Product images are public-read; only the scraper / admin writes.
+    match /products/{productId}/{image=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
