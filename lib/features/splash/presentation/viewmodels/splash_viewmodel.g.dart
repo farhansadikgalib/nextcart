@@ -48,4 +48,4 @@ final class SplashDestinationProvider
   }
 }
 
-String _$splashDestinationHash() => r'f18481392b95edeaae8fabd586fefb6506fb3f02';
+String _$splashDestinationHash() => r'fe43b3d6af338f34c26744c7c71e621972f26a78';

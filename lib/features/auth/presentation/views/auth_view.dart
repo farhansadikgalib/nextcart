@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nextcart/core/widgets/app_icon_badge.dart';
 import 'package:nextcart/core/widgets/glass.dart';
 import 'package:nextcart/features/auth/presentation/viewmodels/auth_viewmodel.dart';
@@ -64,7 +63,17 @@ class AuthView extends ConsumerWidget {
                   label: state.isLoading
                       ? 'Signing in…'
                       : 'Continue with Google',
-                  icon: state.isLoading ? null : FontAwesomeIcons.google,
+                  iconWidget: state.isLoading
+                      ? null
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Image.asset(
+                            'assets/icon/icon.png',
+                            width: 20,
+                            height: 20,
+                            filterQuality: FilterQuality.high,
+                          ),
+                        ),
                   isLoading: state.isLoading,
                   onPressed: () => ref
                       .read(authControllerProvider.notifier)

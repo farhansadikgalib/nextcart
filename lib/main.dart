@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nextcart/app/app_router.dart';
 import 'package:nextcart/core/theme/app_theme.dart';
+import 'package:nextcart/features/notifications/data/notification_init.dart';
 import 'package:nextcart/features/profile/presentation/viewmodels/profile_viewmodel.dart';
 import 'package:nextcart/firebase_options.dart';
 
@@ -20,6 +21,9 @@ class NextCartApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Eagerly start the order notification listener.
+    ref.watch(orderNotificationServiceProvider);
+
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(themeModeControllerProvider);
     return ScreenUtilInit(

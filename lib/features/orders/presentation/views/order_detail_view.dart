@@ -78,7 +78,10 @@ class OrderDetailView extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              _Section(title: 'Status', child: _Timeline(status: order.status)),
+              _Section(
+                title: 'Status',
+                child: _Timeline(status: order.status),
+              ),
               const SizedBox(height: 24),
               _Section(
                 title: 'Delivery to',
@@ -282,58 +285,53 @@ class _Timeline extends StatelessWidget {
       );
     }
     final currentIdx = _track.indexOf(status);
-    return Column(
-      children: List.generate(_track.length, (i) {
-        final done = i <= currentIdx;
-        final isLast = i == _track.length - 1;
-        return IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    width: 18,
-                    height: 18,
-                    decoration: BoxDecoration(
-                      color: done
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.surfaceContainerHighest,
-                      shape: BoxShape.circle,
-                    ),
-                    child: done
-                        ? Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.check,
-                              size: 9,
-                              color: theme.colorScheme.onPrimary,
-                            ),
-                          )
-                        : null,
-                  ),
-                  if (!isLast)
-                    Expanded(
-                      child: Container(
-                        width: 2,
-                        color: done
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.outlineVariant,
+    return Row(
+      children: List.generate(_track.length * 2 - 1, (i) {
+        // Even indices are dots, odd indices are connecting lines.
+        if (i.isOdd) {
+          final segDone = (i ~/ 2) < currentIdx;
+          return Expanded(
+            child: Container(
+              height: 2,
+              color: segDone
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outlineVariant,
+            ),
+          );
+        }
+        final stepIdx = i ~/ 2;
+        final done = stepIdx <= currentIdx;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 22,
+              height: 22,
+              decoration: BoxDecoration(
+                color: done
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.surfaceContainerHighest,
+                shape: BoxShape.circle,
+              ),
+              child: done
+                  ? Center(
+                      child: FaIcon(
+                        FontAwesomeIcons.check,
+                        size: 10,
+                        color: theme.colorScheme.onPrimary,
                       ),
-                    ),
-                ],
+                    )
+                  : null,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              _track[stepIdx].label,
+              style: theme.textTheme.labelSmall?.copyWith(
+                fontWeight: done ? FontWeight.w700 : FontWeight.w400,
+                fontSize: 10,
               ),
-              const SizedBox(width: 12),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  _track[i].label,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: done ? FontWeight.w700 : FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       }),
     );

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Soft gradient + colored "blobs" used as the canvas behind glass surfaces.
 class GlassBackground extends StatelessWidget {
@@ -102,13 +101,13 @@ class GlassPrimaryButton extends StatelessWidget {
     super.key,
     required this.label,
     required this.onPressed,
-    this.icon,
+    this.iconWidget,
     this.isLoading = false,
   });
 
   final String label;
   final VoidCallback? onPressed;
-  final IconData? icon;
+  final Widget? iconWidget;
   final bool isLoading;
 
   @override
@@ -155,8 +154,8 @@ class GlassPrimaryButton extends StatelessWidget {
                       : Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            if (icon != null) ...[
-                              FaIcon(icon, size: 16, color: scheme.onPrimary),
+                            if (iconWidget != null) ...[
+                              iconWidget!,
                               const SizedBox(width: 10),
                             ],
                             Text(

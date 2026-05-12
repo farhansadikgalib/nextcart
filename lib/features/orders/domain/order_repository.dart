@@ -27,4 +27,5 @@ abstract class OrderRepository {
   Stream<List<AppOrder>> watchOrders(String userId);
   Future<AppOrder?> getById(String userId, String orderId);
   Future<AppOrder> placeOrder(String userId, CheckoutDetails details);
+  Future<void> updateStatus(String userId, String orderId, OrderStatus status);
 }

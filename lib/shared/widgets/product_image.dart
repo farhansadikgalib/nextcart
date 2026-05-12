@@ -23,6 +23,7 @@ class ProductImage extends StatelessWidget {
     final image = (url == null || url!.isEmpty)
         ? Container(
             color: placeholderColor,
+            alignment: Alignment.center,
             child: FaIcon(
               FontAwesomeIcons.image,
               size: 32,
@@ -39,6 +40,7 @@ class ProductImage extends StatelessWidget {
             ),
             errorWidget: (_, _, _) => Container(
               color: placeholderColor,
+              alignment: Alignment.center,
               child: FaIcon(
                 FontAwesomeIcons.fileImage,
                 size: 28,

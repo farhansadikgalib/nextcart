@@ -10,6 +10,7 @@ import 'package:nextcart/features/cart/data/firebase_cart_repository.dart';
 import 'package:nextcart/features/product_detail/presentation/viewmodels/product_detail_viewmodel.dart';
 import 'package:nextcart/features/products/data/firebase_product_repository.dart';
 import 'package:nextcart/features/products/domain/models/product.dart';
+import 'package:nextcart/features/wishlist/presentation/viewmodels/wishlist_viewmodel.dart';
 import 'package:nextcart/shared/widgets/empty_state.dart';
 import 'package:nextcart/shared/widgets/price_tag.dart';
 import 'package:nextcart/shared/widgets/product_image.dart';
@@ -92,11 +93,15 @@ class _ProductDetailViewState extends ConsumerState<ProductDetailView> {
                 expandedHeight: 380,
                 backgroundColor: scheme.surface,
                 foregroundColor: scheme.onSurface,
-                leading: _CircleButton(
-                  icon: FontAwesomeIcons.chevronLeft,
-                  onTap: () => Navigator.of(context).maybePop(),
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: _CircleButton(
+                    icon: Icons.arrow_back_ios_new,
+                    onTap: () => Navigator.of(context).maybePop(),
+                  ),
                 ),
                 actions: [
+                  _WishlistButton(product: product),
                   _CircleButton(
                     icon: FontAwesomeIcons.cartShopping,
                     onTap: () => context.go(Routes.cart),
@@ -405,7 +410,42 @@ class _CircleButton extends StatelessWidget {
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: FaIcon(icon, color: Colors.black87, size: 16),
+            child: Icon(icon, color: Colors.black87, size: 16),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WishlistButton extends ConsumerWidget {
+  const _WishlistButton({required this.product});
+  final Product product;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isWished = ref.watch(isInWishlistProvider(product.id));
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Material(
+        color: Colors.white,
+        shape: const CircleBorder(),
+        elevation: 2,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            ref.read(wishlistControllerProvider.notifier).toggle(product);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: FaIcon(
+              isWished
+                  ? FontAwesomeIcons.solidHeart
+                  : FontAwesomeIcons.heart,
+              color: isWished ? Colors.red : Colors.black87,
+              size: 16,
+            ),
           ),
         ),
       ),

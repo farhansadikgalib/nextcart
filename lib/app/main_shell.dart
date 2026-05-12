@@ -3,35 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nextcart/app/routes.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:nextcart/features/cart/data/firebase_cart_repository.dart';
 
 class MainShell extends ConsumerWidget {
-  const MainShell({super.key, required this.child});
+  const MainShell({super.key, required this.navigationShell});
 
-  final Widget child;
-
-  static const _tabs = <_TabSpec>[
-    _TabSpec(Routes.home, FontAwesomeIcons.house, 'Home'),
-    _TabSpec(Routes.categories, FontAwesomeIcons.tableCellsLarge, 'Categories'),
-    _TabSpec(Routes.cart, FontAwesomeIcons.cartShopping, 'Cart'),
-    _TabSpec(Routes.profile, FontAwesomeIcons.user, 'Profile'),
-  ];
-
-  int _currentIndex(String location) {
-    for (var i = _tabs.length - 1; i >= 0; i--) {
-      if (location == _tabs[i].path ||
-          location.startsWith('${_tabs[i].path}/')) {
-        return i;
-      }
-    }
-    return 0;
-  }
+  final StatefulNavigationShell navigationShell;
 
   Future<void> _handleBack(BuildContext context, int index) async {
     if (index != 0) {
-      // Not on Home → first back press goes to Home.
-      context.go(Routes.home);
+      navigationShell.goBranch(0);
       return;
     }
     final exit = await showDialog<bool>(
@@ -46,11 +28,9 @@ class MainShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
-    final location = GoRouterState.of(context).matchedLocation;
-    final index = _currentIndex(location);
+    final index = navigationShell.currentIndex;
+    final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
-    // Sum of quantities across cart items — that's the badge number shoppers
-    // expect (NOT distinct items).
     final cartCount = ref
         .watch(cartStreamProvider)
         .maybeWhen(
@@ -65,47 +45,73 @@ class MainShell extends ConsumerWidget {
         _handleBack(context, index);
       },
       child: Scaffold(
-        body: child,
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: index,
-          onDestinationSelected: (i) {
-            if (i == index) return;
-            context.go(_tabs[i].path);
-          },
-          destinations: [
-            for (var i = 0; i < _tabs.length; i++)
-              NavigationDestination(
-                icon: _maybeBadged(
-                  FaIcon(
-                    _tabs[i].icon,
-                    size: 18,
-                    color: scheme.onSurfaceVariant,
-                  ),
-                  count: _tabs[i].path == Routes.cart ? cartCount : 0,
-                ),
-                selectedIcon: _maybeBadged(
-                  FaIcon(_tabs[i].icon, size: 18, color: scheme.primary),
-                  count: _tabs[i].path == Routes.cart ? cartCount : 0,
-                ),
-                label: _tabs[i].label,
+        body: navigationShell,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: scheme.surface,
+            boxShadow: [
+              BoxShadow(
+                color: scheme.shadow.withValues(alpha: 0.06),
+                blurRadius: 16,
+                offset: const Offset(0, -4),
               ),
-          ],
+            ],
+          ),
+          padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomPadding),
+          child: GNav(
+            selectedIndex: index,
+            onTabChange: (i) {
+              HapticFeedback.lightImpact();
+              navigationShell.goBranch(i, initialLocation: i == index);
+            },
+            gap: 8,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            tabBorderRadius: 14,
+            duration: const Duration(milliseconds: 300),
+            color: scheme.onSurfaceVariant,
+            activeColor: scheme.primary,
+            tabBackgroundColor: scheme.primaryContainer.withValues(alpha: 0.4),
+            iconSize: 18,
+            textStyle: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: scheme.primary,
+            ),
+            tabs: [
+              GButton(
+                icon: FontAwesomeIcons.house,
+                text: 'Home',
+              ),
+              GButton(
+                icon: FontAwesomeIcons.tableCellsLarge,
+                text: 'Categories',
+              ),
+              GButton(
+                icon: FontAwesomeIcons.cartShopping,
+                text: 'Cart',
+                leading: cartCount > 0
+                    ? Badge.count(
+                        count: cartCount,
+                        child: FaIcon(
+                          FontAwesomeIcons.cartShopping,
+                          size: 18,
+                          color: index == 2
+                              ? scheme.primary
+                              : scheme.onSurfaceVariant,
+                        ),
+                      )
+                    : null,
+              ),
+              GButton(
+                icon: FontAwesomeIcons.user,
+                text: 'Profile',
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  Widget _maybeBadged(Widget child, {required int count}) {
-    if (count <= 0) return child;
-    return Badge.count(count: count, child: child);
-  }
-}
-
-class _TabSpec {
-  const _TabSpec(this.path, this.icon, this.label);
-  final String path;
-  final IconData icon;
-  final String label;
 }
 
 class _ExitDialog extends StatelessWidget {

@@ -11,12 +11,15 @@ class FirebaseOrderRepository implements OrderRepository {
 
   final FirebaseFirestore _firestore;
 
-  CollectionReference<Map<String, dynamic>> _col(String userId) =>
+  CollectionReference<Map<String, dynamic>> _userCol(String userId) =>
       _firestore.collection('users').doc(userId).collection('orders');
+
+  CollectionReference<Map<String, dynamic>> get _globalCol =>
+      _firestore.collection('orders');
 
   @override
   Stream<List<AppOrder>> watchOrders(String userId) {
-    return _col(userId)
+    return _userCol(userId)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.docs.map(AppOrder.fromFirestore).toList());
@@ -24,14 +27,31 @@ class FirebaseOrderRepository implements OrderRepository {
 
   @override
   Future<AppOrder?> getById(String userId, String orderId) async {
-    final snap = await _col(userId).doc(orderId).get();
+    final snap = await _userCol(userId).doc(orderId).get();
     if (!snap.exists) return null;
     return AppOrder.fromFirestore(snap);
   }
 
   @override
+  Future<void> updateStatus(
+      String userId, String orderId, OrderStatus status) async {
+    final update = <String, dynamic>{
+      'status': status.name,
+      'updatedAt': FieldValue.serverTimestamp(),
+    };
+    await Future.wait([
+      _userCol(userId).doc(orderId).update(update),
+      _globalCol.doc(orderId).update(update),
+    ]);
+  }
+
+  @override
   Future<AppOrder> placeOrder(String userId, CheckoutDetails details) async {
-    final orderRef = _col(userId).doc();
+    // Use the same ID for both collections so they stay in sync.
+    final orderId = _globalCol.doc().id;
+    final userRef = _userCol(userId).doc(orderId);
+    final globalRef = _globalCol.doc(orderId);
+
     final items = details.items
         .map((c) => OrderLine(
               productId: c.productId,
@@ -57,10 +77,16 @@ class FirebaseOrderRepository implements OrderRepository {
       'updatedAt': FieldValue.serverTimestamp(),
     };
 
-    await orderRef.set(data);
+    // Top-level copy includes userId for admin queries.
+    final globalData = <String, dynamic>{...data, 'userId': userId};
+
+    final batch = _firestore.batch();
+    batch.set(userRef, data);
+    batch.set(globalRef, globalData);
+    await batch.commit();
 
     return AppOrder(
-      id: orderRef.id,
+      id: orderId,
       items: items,
       subtotal: details.subtotal,
       deliveryFee: details.deliveryFee,

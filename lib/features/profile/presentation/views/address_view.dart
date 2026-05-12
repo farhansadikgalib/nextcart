@@ -112,11 +112,8 @@ class _AddressFormState extends ConsumerState<_AddressForm> {
         const SizedBox(height: 14),
         TextField(
           controller: _address,
-          minLines: 2,
-          maxLines: 4,
           decoration: const InputDecoration(
             labelText: 'Street address',
-            alignLabelWithHint: true,
             prefixIcon: _PrefixIcon(FontAwesomeIcons.locationDot),
             prefixIconConstraints: BoxConstraints(minWidth: 48, minHeight: 48),
           ),

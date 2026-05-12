@@ -90,6 +90,13 @@ class FirebaseAuthRepository implements AuthRepository {
         'createdAt': FieldValue.serverTimestamp(),
       };
       await ref.set(data);
+    } else {
+      // Keep name, email, and photo in sync with the auth provider.
+      await ref.update(<String, dynamic>{
+        'name': firebaseUser.displayName ?? '',
+        'email': firebaseUser.email ?? '',
+        'photoUrl': firebaseUser.photoURL,
+      });
     }
     final fresh = await ref.get();
     return AppUser.fromFirestore(fresh);

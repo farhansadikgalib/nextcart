@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nextcart/app/routes.dart';
 import 'package:nextcart/features/auth/data/firebase_auth_repository.dart';
+import 'package:nextcart/features/notifications/data/firebase_notification_repository.dart';
 import 'package:nextcart/features/categories/data/firebase_category_repository.dart';
 import 'package:nextcart/features/categories/domain/models/category.dart';
 import 'package:nextcart/features/home/presentation/viewmodels/home_viewmodel.dart';
@@ -41,27 +42,34 @@ class HomeView extends ConsumerWidget {
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.fromLTRB(20, 16, 16, 8),
+                  child: Row(
                     children: [
-                      Text(
-                        firstName.isEmpty
-                            ? 'Welcome back'
-                            : 'Hi, $firstName 👋',
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              firstName.isEmpty
+                                  ? 'Welcome back'
+                                  : 'Hi, $firstName 👋',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'What are you shopping today?',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 2),
-                      Text(
-                        'What are you shopping today?',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
+                      _NotificationBell(ref: ref),
                     ],
                   ),
                 ),
@@ -250,6 +258,7 @@ class _CategoryTile extends StatelessWidget {
           Container(
             height: 56,
             width: 56,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: theme.colorScheme.tertiaryContainer,
               shape: BoxShape.circle,
@@ -411,6 +420,40 @@ class _BannerCarouselState extends State<_BannerCarousel> {
             child: _CarouselDots(count: items.length, current: _index),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _NotificationBell extends StatelessWidget {
+  const _NotificationBell({required this.ref});
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final unreadCount = ref
+        .watch(unreadNotificationCountProvider)
+        .maybeWhen(data: (c) => c, orElse: () => 0);
+
+    return IconButton(
+      onPressed: () => context.push(Routes.notifications),
+      style: IconButton.styleFrom(
+        backgroundColor:
+            theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+        fixedSize: const Size(44, 44),
+      ),
+      icon: Badge(
+        isLabelVisible: unreadCount > 0,
+        label: Text('$unreadCount'),
+        child: FaIcon(
+          FontAwesomeIcons.bell,
+          size: 18,
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }

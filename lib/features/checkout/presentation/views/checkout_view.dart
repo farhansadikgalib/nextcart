@@ -141,11 +141,8 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _address,
-                    minLines: 2,
-                    maxLines: 4,
                     decoration: const InputDecoration(
                       labelText: 'Full address',
-                      alignLabelWithHint: true,
                       prefixIcon: _PrefixIcon(FontAwesomeIcons.locationDot),
                       prefixIconConstraints: BoxConstraints(
                         minWidth: 48,

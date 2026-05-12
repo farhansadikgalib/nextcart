@@ -10,6 +10,7 @@ import 'package:nextcart/features/auth/domain/models/app_user.dart';
 import 'package:nextcart/features/cart/data/firebase_cart_repository.dart';
 import 'package:nextcart/features/orders/data/firebase_order_repository.dart';
 import 'package:nextcart/features/profile/presentation/viewmodels/profile_viewmodel.dart';
+import 'package:nextcart/features/wishlist/data/firebase_wishlist_repository.dart';
 import 'package:nextcart/shared/widgets/skeletons.dart';
 
 class ProfileView extends ConsumerWidget {
@@ -29,6 +30,9 @@ class ProfileView extends ConsumerWidget {
           data: (c) => c.fold<int>(0, (s, x) => s + x.quantity),
           orElse: () => 0,
         );
+    final wishlistCount = ref
+        .watch(wishlistStreamProvider)
+        .maybeWhen(data: (w) => w.length, orElse: () => 0);
 
     return Scaffold(
       backgroundColor: scheme.surfaceContainerLowest,
@@ -42,7 +46,12 @@ class ProfileView extends ConsumerWidget {
           return ListView(
             padding: EdgeInsets.zero,
             children: [
-              _Hero(user: user, orders: ordersCount, cartItems: cartCount),
+              _Hero(
+                user: user,
+                orders: ordersCount,
+                cartItems: cartCount,
+                saved: wishlistCount,
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: Column(
@@ -69,6 +78,14 @@ class ProfileView extends ConsumerWidget {
                                 ? null
                                 : Text('$ordersCount'),
                             onTap: () => context.push(Routes.orders),
+                          ),
+                          _Tile(
+                            icon: FontAwesomeIcons.heart,
+                            title: 'My Wishlist',
+                            trailing: wishlistCount == 0
+                                ? null
+                                : Text('$wishlistCount'),
+                            onTap: () => context.push(Routes.wishlist),
                           ),
                           _Tile(
                             icon: FontAwesomeIcons.locationDot,
@@ -205,10 +222,12 @@ class _Hero extends StatelessWidget {
     required this.user,
     required this.orders,
     required this.cartItems,
+    required this.saved,
   });
   final AppUser user;
   final int orders;
   final int cartItems;
+  final int saved;
 
   @override
   Widget build(BuildContext context) {
@@ -239,6 +258,21 @@ class _Hero extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             _Avatar(photoUrl: user.photoUrl, size: 84),
+            const SizedBox(height: 12),
+            Text(
+              user.name,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              user.email,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.85),
+              ),
+            ),
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(12),
@@ -252,7 +286,7 @@ class _Hero extends StatelessWidget {
                   _Divider(),
                   _StatTile(label: 'Cart', value: '$cartItems'),
                   _Divider(),
-                  _StatTile(label: 'Saved', value: '—'),
+                  _StatTile(label: 'Saved', value: '$saved'),
                 ],
               ),
             ),

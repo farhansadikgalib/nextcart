@@ -84,7 +84,7 @@ final class RecentSearchesProvider
   RecentSearches create() => RecentSearches();
 }
 
-String _$recentSearchesHash() => r'f9358fc386933e56c952010a8c8ad6e676f2e05e';
+String _$recentSearchesHash() => r'f911b35797d0ac6899321c89933000f01789b92b';
 
 abstract class _$RecentSearches extends $AsyncNotifier<List<String>> {
   FutureOr<List<String>> build();

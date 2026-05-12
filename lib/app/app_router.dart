@@ -22,6 +22,8 @@ import 'package:nextcart/features/profile/presentation/views/info_view.dart';
 import 'package:nextcart/features/profile/presentation/views/profile_view.dart';
 import 'package:nextcart/features/search/presentation/views/search_view.dart';
 import 'package:nextcart/features/splash/presentation/views/splash_view.dart';
+import 'package:nextcart/features/notifications/presentation/views/notification_view.dart';
+import 'package:nextcart/features/wishlist/presentation/views/wishlist_view.dart';
 
 CustomTransitionPage<T> _slidePage<T>({required Widget child, LocalKey? key}) {
   return CustomTransitionPage<T>(
@@ -85,30 +87,56 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: Routes.auth,
         pageBuilder: (_, _) => _slidePage(child: const AuthView()),
       ),
-      ShellRoute(
-        builder: (context, state, child) => MainShell(child: child),
-        routes: [
-          GoRoute(
-            path: Routes.home,
-            pageBuilder: (_, _) =>
-                const NoTransitionPage(child: HomeView()),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            MainShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.home,
+                pageBuilder: (_, _) =>
+                    const NoTransitionPage(child: HomeView()),
+              ),
+            ],
           ),
-          GoRoute(
-            path: Routes.categories,
-            pageBuilder: (_, _) =>
-                const NoTransitionPage(child: CategorieView()),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.categories,
+                pageBuilder: (_, _) =>
+                    const NoTransitionPage(child: CategorieView()),
+              ),
+            ],
           ),
-          GoRoute(
-            path: Routes.cart,
-            pageBuilder: (_, _) =>
-                const NoTransitionPage(child: CartView()),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.cart,
+                pageBuilder: (_, _) =>
+                    const NoTransitionPage(child: CartView()),
+              ),
+            ],
           ),
-          GoRoute(
-            path: Routes.profile,
-            pageBuilder: (_, _) =>
-                const NoTransitionPage(child: ProfileView()),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.profile,
+                pageBuilder: (_, _) =>
+                    const NoTransitionPage(child: ProfileView()),
+              ),
+            ],
           ),
         ],
+      ),
+      GoRoute(
+        path: Routes.notifications,
+        pageBuilder: (_, _) =>
+            _slidePage(child: const NotificationView()),
+      ),
+      GoRoute(
+        path: Routes.wishlist,
+        pageBuilder: (_, _) => _slidePage(child: const WishlistView()),
       ),
       GoRoute(
         path: Routes.products,

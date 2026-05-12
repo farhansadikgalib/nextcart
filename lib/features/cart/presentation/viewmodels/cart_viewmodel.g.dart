@@ -89,7 +89,7 @@ final class CartDeliveryFeeProvider
   }
 }
 
-String _$cartDeliveryFeeHash() => r'44fe40f02c8187d9d25ec8a9bf1014e60adce59c';
+String _$cartDeliveryFeeHash() => r'f3fcac103493e74217baa3124a0dcbe6669e2ffe';
 
 @ProviderFor(cartTotal)
 final cartTotalProvider = CartTotalProvider._();

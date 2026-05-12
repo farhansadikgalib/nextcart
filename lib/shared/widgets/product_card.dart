@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nextcart/features/products/domain/models/product.dart';
+import 'package:nextcart/features/wishlist/presentation/viewmodels/wishlist_viewmodel.dart';
 import 'package:nextcart/shared/widgets/price_tag.dart';
 import 'package:nextcart/shared/widgets/product_image.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends ConsumerWidget {
   const ProductCard({
     super.key,
     required this.product,
@@ -17,8 +20,9 @@ class ProductCard extends StatelessWidget {
   final VoidCallback? onAddToCart;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final isWished = ref.watch(isInWishlistProvider(product.id));
     return Material(
       color: theme.colorScheme.surface,
       borderRadius: BorderRadius.circular(18),
@@ -48,6 +52,35 @@ class ProductCard extends StatelessWidget {
                       url: product.primaryImage,
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(18),
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          ref
+                              .read(wishlistControllerProvider.notifier)
+                              .toggle(product);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surface
+                                .withValues(alpha: 0.85),
+                            shape: BoxShape.circle,
+                          ),
+                          child: FaIcon(
+                            isWished
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
+                            size: 14,
+                            color: isWished
+                                ? theme.colorScheme.error
+                                : theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
                       ),
                     ),
                     if (product.isOnSale)
